@@ -31,9 +31,21 @@ If you specify 0 for a weekly, monthly or yearly Retention, a backup for the nex
 ## Installation
 
 ### Via Terraform
+This project is a Terraform module. Reference module by adding the following to your terraform configuration:
 ```sh
-cd terraform
-./create_zip.sh
+module "aws-lambda-backup" {
+  source  = "${path-to-modules}/aws-lambda-backup"
+}
+```
+
+Initialize module by (re-)initializing your terraform project:
+```sh
+terraform init
+```
+
+Apply changes to terraform configuration:
+
+```sh
 terraform plan -out terraform.tfplan
 ```
 
@@ -61,13 +73,7 @@ TBD
             "Action": [
                 "logs:CreateLogGroup",
                 "logs:CreateLogStream",
-                "logs:PutLogEvents"
-            ],
-            "Resource": "arn:aws:logs:*:*:*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
+                "logs:PutLogEvents",
                 "ec2:CreateSnapshot",
                 "ec2:CreateTags",
                 "ec2:DeleteSnapshot",
@@ -90,7 +96,7 @@ TBD
     * Enable trigger
 * Configure function
     * Enter name
-    * Select "Python 2.7" from the Runtime dropdown
+    * Select "Python 3.6" from the Runtime dropdown
     * Copy the source code from ebs-backup.py to code window
     * Check that Handler is "lambda_function.lambda_handler"
     * Choose the previously created IAM role
