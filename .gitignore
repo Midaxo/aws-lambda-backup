@@ -4,3 +4,10 @@
 
 # Created zip file
 *.zip
+
+# Virtualenv
+bin/
+include/
+lib/
+.Python
+pip-selfcheck.json
